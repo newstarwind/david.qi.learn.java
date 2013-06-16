@@ -1,6 +1,6 @@
 package david.qi.learn.java.effectivejava.enumstudy;
 
-public class EnumTest {
+public class EnumExamples {
 	enum Color {
 		Red, Blue, Green;
 		public String toString() {
