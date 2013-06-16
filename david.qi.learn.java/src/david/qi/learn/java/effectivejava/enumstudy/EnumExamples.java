@@ -48,7 +48,7 @@ public class EnumExamples {
 	enum Planet{
 		MERUCRY	(3.304e+23, 	2.439e6),
 		VENUS	 	(4.869e+24,	6.052e6),
-		EARTH			(5.975e+24,		6.378e6);
+		EARTH			(5.975e+24,	6.378e6);
 		
 		private final double mass;
 		private final double radius;
@@ -77,6 +77,7 @@ public class EnumExamples {
 		TIMES		{double apply(double x, double y) {return x * y;}},
 		DIVDE		{double apply(double x, double y)	 {return x / y;}};
 		
+		//Pay attention to the abstract method here.
 		abstract double apply(double x, double y);
 	}
 	
