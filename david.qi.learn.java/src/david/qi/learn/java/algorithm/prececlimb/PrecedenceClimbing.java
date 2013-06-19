@@ -6,9 +6,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PrecedenceClimbing {
-	enum TokenType {BINOP, NUMBER, LEFTPAR, RIGHTPAR}
-	enum Associativity {LEFT, RIGHT}
-	enum Precedence{ONE(1), TWO(2), THREE(3);
+	enum TokenType 		{BINOP, NUMBER, LEFTPAR, RIGHTPAR}
+	enum Associativity 	{LEFT, RIGHT}
+	enum Precedence		{ONE(1), TWO(2), THREE(3);
 		final int value;
 		private Precedence(int prece) {
 			this.value = prece;
@@ -34,12 +34,14 @@ public class PrecedenceClimbing {
 	static final String PATTERN = "\\s*(\\d+)|(\\S)";
 
 	public static void main(String[] args) {
-		String expr = "2 + 3 ^ 4";
-		Tokenizer t = parse(expr);
-		System.out.println(compute_expr(t, 1));
-		
+		String expr = "100/(1 + 2)^3*10";
+		System.out.println(compute_expr(parse(expr), 1));		
 	}
 
+	/**
+	 * @param expr: the expression of formula by string
+	 * @return Tokenizer: a list of parsed tokens of the formula, with a index to current token
+	 */
 	private static Tokenizer parse(String expr) {
 		Pattern p = Pattern.compile(PATTERN);
 		Matcher m = p.matcher(expr);
@@ -47,45 +49,63 @@ public class PrecedenceClimbing {
 		while (m.find()) {
 			String number = m.group(1);
 			String item = m.group(2);
+			Token n;
 			if (number != null) {
-				Token n = new Token(number, TokenType.NUMBER);
-				tokens.add(n);
+				n = new Token(number, TokenType.NUMBER, null);
 			} else if (item != null && item.equals("(")) {
-				Token n = new Token(item, TokenType.LEFTPAR);
-				tokens.add(n);
+				n = new Token(item, TokenType.LEFTPAR,null);
 			} else if (item != null && item.equals(")")) {
-				Token n = new Token(item, TokenType.RIGHTPAR);
-				tokens.add(n);
+				n = new Token(item, TokenType.RIGHTPAR,null);
 			} else if (item != null) {
-				Token n = new Token(item, TokenType.BINOP);
 				if(item.equals(Operation.PLUS.value)) {
-					n.operation = Operation.PLUS;
+					n = new Token(item, TokenType.BINOP, Operation.PLUS);
 				}else if(item.equals(Operation.MINUS.value)) {
-					n.operation = Operation.MINUS;
+					n = new Token(item, TokenType.BINOP, Operation.MINUS);
 				}else if(item.equals(Operation.TIMES.value)) {
-					n.operation = Operation.TIMES;
+					n = new Token(item, TokenType.BINOP, Operation.TIMES);
 				}else if(item.equals(Operation.DIVIDE.value)) {
-					n.operation = Operation.DIVIDE;
+					n = new Token(item, TokenType.BINOP, Operation.DIVIDE);
 				}else if(item.equals(Operation.POWER.value)) {
-					n.operation = Operation.POWER;
+					n = new Token(item, TokenType.BINOP, Operation.POWER);
 				}else {
-					throw new RuntimeException("Unexcepted item :  " + item);
+					throw new RuntimeException("Unexcepted operation :  " + item);
 				}
-				tokens.add(n);
 			}else {
 				throw new IllegalArgumentException("Wrong expr argument: " + expr);
 			}
+			tokens.add(n);
 		}
 		return new Tokenizer(tokens);
 	}
 	
+	/**
+	 * Compute the value of atom, atom means number or a sub-expression covered by "(" and ")"
+	 * @param t: the tokens of the formula
+	 * @return int: result
+	 */
 	private static int compute_atom(Tokenizer t) {
-		String value = t.getCurrent().value;
-		if(value == null) throw new IllegalArgumentException("Unexcepted end of expr!"); 
-		return Integer.valueOf(value);
+		TokenType type = t.getCurrent().type;
+		if(type == TokenType.NUMBER) {
+			String value = t.getCurrent().value;
+			if(value == null) throw new IllegalArgumentException("Unexcepted end of expr!" + t);
+			return Integer.valueOf(value);
+		}else if(type == TokenType.LEFTPAR) {
+			t.next();			
+			int result = compute_expr(t,1);
+			if(t.getCurrent().type != TokenType.RIGHTPAR) throw new IllegalArgumentException("unmatched \"(\" :  " + t);
+			return result;
+		}else {
+			throw new IllegalArgumentException("Except an atom, but an operation : " + t);			
+		}
 	}
 	
-	private static int compute_expr(Tokenizer t, int minPrece) {
+	/**
+	 * Calculate the value of expression
+	 * @param t: the tokens of the formula
+	 * @param minPrece: the minimal precedence of current token
+	 * @return int: the computing result of the expression
+	 */
+	public static int compute_expr(Tokenizer t, int minPrece) {
 		int result = compute_atom(t);
 		t.next();
 		while(true) {
@@ -102,10 +122,9 @@ public class PrecedenceClimbing {
 			}
 		}
 		return result;
-		
 	}
 
-	private static class Tokenizer{
+	public static class Tokenizer{
 		private final List<Token> tokens;
 		private Token curToken;
 		private int index = 0;
@@ -123,23 +142,29 @@ public class PrecedenceClimbing {
 				this.curToken = tokens.get(++index);
 			}
 		}
+		
+		@Override public String toString() {
+			StringBuilder sb = new StringBuilder();
+			for(Token t : tokens) {
+				sb.append(" ").append(t.toString());
+			}
+			return sb.toString();
+		}
 	}
 	
-	private static class Token {
+	public static class Token {
 		final String value;
 		final TokenType type;
-		Operation operation;
+		final Operation operation;
 
-		Token(String value, TokenType type) {
+		Token(String value, TokenType type, Operation oper) {
 			this.value = value;
 			this.type = type;
+			this.operation = oper;
 		}
 		
-		public String toString() {
-			return this.type + " : " + this.value;
+		@Override public String toString() {
+			return this.value;
 		}
-	}
-	
-	
-	
+	}	
 }

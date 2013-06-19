@@ -5,7 +5,7 @@ import java.util.EmptyStackException;
 
 public class Stack {
 	private Object[] elements;
-	private int size = 0;
+	private int size = 0; //number of elements in the Stack
 	private static final int DEFAULT_INITIAL_CAPACITY = 16;
 	
 	public static void main(String[] args) {
