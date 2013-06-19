@@ -34,7 +34,7 @@ public class PrecedenceClimbing {
 	static final String PATTERN = "\\s*(\\d+)|(\\S)";
 
 	public static void main(String[] args) {
-		String expr = "100/(1 + 2)^3*10";
+		String expr = "1-(2+3)*4/5^6";
 		System.out.println(compute_expr(parse(expr), 1));		
 	}
 
@@ -42,7 +42,7 @@ public class PrecedenceClimbing {
 	 * @param expr: the expression of formula by string
 	 * @return Tokenizer: a list of parsed tokens of the formula, with a index to current token
 	 */
-	private static Tokenizer parse(String expr) {
+	public static Tokenizer parse(String expr) {
 		Pattern p = Pattern.compile(PATTERN);
 		Matcher m = p.matcher(expr);
 		List<Token> tokens = new ArrayList<Token>();
@@ -152,7 +152,7 @@ public class PrecedenceClimbing {
 		}
 	}
 	
-	public static class Token {
+	private static class Token {
 		final String value;
 		final TokenType type;
 		final Operation operation;
