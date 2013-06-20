@@ -1,4 +1,4 @@
-package david.qi.learn.java.concurrency;
+package david.qi.learn.java.concurrency.threads;
 
 import java.util.concurrent.TimeUnit;
 
