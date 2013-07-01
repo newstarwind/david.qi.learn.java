@@ -6,24 +6,24 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PrecedenceClimbing {
-	enum TokenType 		{BINOP, NUMBER, LEFTPAR, RIGHTPAR}
-	enum Associativity 	{LEFT, RIGHT}
-	enum Precedence		{ONE(1), TWO(2), THREE(3);
+	public enum TokenType 		{BINOP, NUMBER, LEFTPAR, RIGHTPAR}
+	public enum Associativity 	{LEFT, RIGHT}
+	public enum Precedence		{ONE(1), TWO(2), THREE(3);
 		final int value;
 		private Precedence(int prece) {
 			this.value = prece;
 		}
 	};
-	enum Operation {
+	public enum Operation {
 		PLUS		("+",		Associativity.LEFT, Precedence.ONE)			{int apply(int x, int y) {return x + y;}},
 		MINUS	("-", 		Associativity.LEFT, Precedence.ONE) 			{int apply(int x, int y) {return x - y;}},
 		TIMES		("*", 		Associativity.LEFT, Precedence.TWO) 			{int apply(int x, int y) {return x * y;}},
 		DIVIDE	("/", 		Associativity.LEFT, Precedence.TWO) 			{int apply(int x, int y) {return x / y;}},
 		POWER	("^",		Associativity.RIGHT,Precedence.THREE)		{int apply(int x, int y){return (int)Math.pow(x, y);}};	
 
-		final String value;
-		final Associativity asso;
-		final Precedence precedence;
+		public final String value;
+		public final Associativity asso;
+		public final Precedence precedence;
 		Operation(String value, Associativity asso, Precedence prec){
 			this.value = value;
 			this.asso = asso;
@@ -152,12 +152,12 @@ public class PrecedenceClimbing {
 		}
 	}
 	
-	private static class Token {
+	public static class Token {
 		final String value;
 		final TokenType type;
 		final Operation operation;
 
-		Token(String value, TokenType type, Operation oper) {
+		public Token(String value, TokenType type, Operation oper) {
 			this.value = value;
 			this.type = type;
 			this.operation = oper;
