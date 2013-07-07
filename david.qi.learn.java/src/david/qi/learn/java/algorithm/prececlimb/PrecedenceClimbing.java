@@ -80,7 +80,7 @@ public class PrecedenceClimbing {
 	
 	/**
 	 * Compute the value of atom, atom means number or a sub-expression covered by "(" and ")"
-	 * @param t: all tokens of the formula
+	 * @param t: all tokens of the formula, just again!
 	 * @return int: result
 	 */
 	private static int compute_atom(Tokenizer t) {
