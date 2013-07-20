@@ -109,8 +109,8 @@ public class Point21 {
 	}
 
 	/**
-	 * 递归算法：将数据分为源和目的部分，递归将数据从左侧移右侧实现全排列
-	 * @param elements: possible elements for selection
+	 * 递归算法：将数据分为源和目的部分，递归将数据从源移至目的实现全排列
+	 * @param elements: possible elements for all selection
 	 * @param permutation
 	 */
 	public static void sort(List<String> elements, List<String> perm, List<List<String>> output) {

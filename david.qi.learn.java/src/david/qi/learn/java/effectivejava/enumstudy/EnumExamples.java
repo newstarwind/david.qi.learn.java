@@ -73,9 +73,9 @@ public class EnumExamples {
 	//	有时候你需要将本质上不同的行为和每个枚举关联起来, 成为特定于常量的方法实现
 	enum Operation{
 		PLUS 		{double apply(double x, double y) {return x + y;}},
-		MINUS	{double apply(double x, double y) {return x - y;}},
+		MINUS		{double apply(double x, double y) {return x - y;}},
 		TIMES		{double apply(double x, double y) {return x * y;}},
-		DIVDE		{double apply(double x, double y)	 {return x / y;}};
+		DIVDE		{double apply(double x, double y) {return x / y;}};
 		
 		//Pay attention to the abstract method here.
 		abstract double apply(double x, double y);

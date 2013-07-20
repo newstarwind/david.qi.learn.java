@@ -15,10 +15,10 @@ public class PrecedenceClimbing {
 		}
 	};
 	public enum Operation {
-		PLUS		("+",		Associativity.LEFT, Precedence.ONE)			{int apply(int x, int y) {return x + y;}},
-		MINUS	("-", 		Associativity.LEFT, Precedence.ONE) 			{int apply(int x, int y) {return x - y;}},
-		TIMES		("*", 		Associativity.LEFT, Precedence.TWO) 			{int apply(int x, int y) {return x * y;}},
-		DIVIDE	("/", 		Associativity.LEFT, Precedence.TWO) 			{int apply(int x, int y) {return x / y;}},
+		PLUS	("+",		Associativity.LEFT, Precedence.ONE)			{int apply(int x, int y) {return x + y;}},
+		MINUS	("-", 		Associativity.LEFT, Precedence.ONE) 		{int apply(int x, int y) {return x - y;}},
+		TIMES	("*", 		Associativity.LEFT, Precedence.TWO) 		{int apply(int x, int y) {return x * y;}},
+		DIVIDE	("/", 		Associativity.LEFT, Precedence.TWO) 		{int apply(int x, int y) {return x / y;}},
 		POWER	("^",		Associativity.RIGHT,Precedence.THREE)		{int apply(int x, int y){return (int)Math.pow(x, y);}};	
 
 		public final String value;
