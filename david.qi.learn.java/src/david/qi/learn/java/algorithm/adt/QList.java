@@ -8,7 +8,11 @@ import java.util.ListIterator;
 public class QList<E> implements List<E>{
 	Node<E> head;
 	Node<E> tail;
+	Node<E>	position = head;
+	
 	int size = 0;
+	
+
 	
 	public QList(){
 		this.head = new Node<E>();
@@ -69,22 +73,69 @@ public class QList<E> implements List<E>{
 
 	@Override
 	public E get(int index) {
-		return null;
+		if(index >= size){
+			throw new RuntimeException("Out of boundary: " + index);
+		}
+		Node<E> position = this.head;
+		for(int i = 0; i<= index; i++){
+			position = position.getNextNode();
+		}
+		return position.getValue();
 	}
 
 	@Override
 	public int indexOf(Object o) {
-		return 0;
+		if (o == null){
+			throw new RuntimeException("Wrong parameter: null");
+		}
+		Node position = this.head;
+		int i = 0;
+		while(position.getNextNode()!=this.tail){
+			position = position.getNextNode();
+			if(o == position.getValue())
+				return i;
+			i++;
+		}
+		return -1;
 	}
 
 	@Override
 	public boolean isEmpty() {
+		if(this.size == 0)
+			return true;
 		return false;
 	}
 
 	@Override
-	public Iterator iterator() {
-		return null;
+	public Iterator<E> iterator() {
+		return new Iterator<E>(){
+			@Override
+			public boolean hasNext() {
+				if(position.getNextNode()!=tail){
+					return true;
+				}
+				return false;
+			}
+			@Override
+			public E next() {
+				position = position.getNextNode();
+				return position.getValue();
+			}
+			@Override
+			public void remove() {
+				if(position == head || position == tail){
+					throw new RuntimeException("It's at begin or at end, can't remove.");
+				}else{
+					Node<E> pre = position.getPreNode();
+					Node<E> next = position.getNextNode();
+					pre.setNextNode(next);
+					next.setPreNode(pre);
+					position = next;
+				}
+				
+			}
+		};
+		
 	}
 
 	@Override
