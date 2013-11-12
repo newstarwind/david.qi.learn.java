@@ -11,8 +11,8 @@ public class QList<E> implements List<E>{
 	int size = 0;
 	
 	public QList(){
-		this.head = new Node();
-		this.tail = new Node();
+		this.head = new Node<E>();
+		this.tail = new Node<E>();
 		this.head.setNextNode(this.tail);
 		this.tail.setPreNode(this.head);
 	}
@@ -22,12 +22,12 @@ public class QList<E> implements List<E>{
 		if(index > size){
 			throw new RuntimeException("Out of boundry, size = " + size +" and index = " + index);
 		}
-		Node position = this.head;
+		Node<E> position = this.head;
 		for(int i = 0;i < index; i++){
 			position = position.getNextNode(); 			
 		}
-		Node follower = position.getNextNode();
-		Node e = new Node();
+		Node<E> follower = position.getNextNode();
+		Node<E> e = new Node<E>();
 		e.setValue(element);
 		position.setNextNode(e);
 		e.setPreNode(position);
@@ -38,9 +38,9 @@ public class QList<E> implements List<E>{
 
 	@Override
 	public boolean add(E e) {
-		Node current = new Node();
+		Node<E> current = new Node<E>();
 		current.setValue(e);
-		Node last = this.tail.getPreNode();
+		Node<E> last = this.tail.getPreNode();
 		last.setNextNode(current);
 		current.setPreNode(last);
 		current.setNextNode(this.tail);
@@ -51,12 +51,20 @@ public class QList<E> implements List<E>{
 
 	@Override
 	public void clear() {
-		
+		this.tail.setPreNode(this.head);
+		this.head.setNextNode(this.tail);
+		this.size = 0;
 	}
 
 	@Override
 	public boolean contains(Object o) {
+//		if( !(o instanceof E)){
+//			return false;
+//		}
+		E e = (E)o;
+		//<todo>
 		return false;
+		
 	}
 
 	@Override
