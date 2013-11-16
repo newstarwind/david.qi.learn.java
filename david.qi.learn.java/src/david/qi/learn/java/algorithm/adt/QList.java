@@ -8,12 +8,8 @@ import java.util.ListIterator;
 public class QList<E> implements List<E>{
 	Node<E> head;
 	Node<E> tail;
-	Node<E>	position = head;
-	
 	int size = 0;
-	
-
-	
+		
 	public QList(){
 		this.head = new Node<E>();
 		this.tail = new Node<E>();
@@ -24,19 +20,18 @@ public class QList<E> implements List<E>{
 	@Override
 	public void add(int index, E element) {
 		if(index > size){
-			throw new RuntimeException("Out of boundry, size = " + size +" and index = " + index);
+			throw new IndexOutOfBoundsException("Out of boundry, size = " + size +" and index = " + index);
 		}
-		Node<E> position = this.head;
+		Node<E> position = head;
 		for(int i = 0;i < index; i++){
 			position = position.getNextNode(); 			
 		}
-		Node<E> follower = position.getNextNode();
 		Node<E> e = new Node<E>();
 		e.setValue(element);
 		position.setNextNode(e);
 		e.setPreNode(position);
-		e.setNextNode(follower);
-		follower.setPreNode(e);
+		e.setNextNode(position.getNextNode());
+		position.getNextNode().setPreNode(e);
 		size++;
 	}
 
@@ -62,12 +57,7 @@ public class QList<E> implements List<E>{
 
 	@Override
 	public boolean contains(Object o) {
-//		if( !(o instanceof E)){
-//			return false;
-//		}
-		E e = (E)o;
-		//<todo>
-		return false;
+		throw new UnsupportedOperationException("Donot support this method!");
 		
 	}
 
@@ -109,6 +99,7 @@ public class QList<E> implements List<E>{
 	@Override
 	public Iterator<E> iterator() {
 		return new Iterator<E>(){
+			Node<E> position = head;
 			@Override
 			public boolean hasNext() {
 				if(position.getNextNode()!=tail){
@@ -132,25 +123,32 @@ public class QList<E> implements List<E>{
 					next.setPreNode(pre);
 					position = next;
 				}
-				
 			}
 		};
-		
 	}
 
 	@Override
 	public ListIterator listIterator() {
-		return null;
+		throw new UnsupportedOperationException("Donot support this method!");
 	}
 
 	@Override
 	public ListIterator listIterator(int index) {
-		return null;
+		throw new UnsupportedOperationException("Donot support this method!");
 	}
 
 	@Override
 	public E remove(int index) {
-		return null;
+		Node<E>	position = head;
+		for(int i = 0; i <= index; i++){
+			position = position.getNextNode();
+		}
+		Node<E> pre = position.getPreNode();
+		Node<E> next = position.getNextNode();
+		pre.setNextNode(next);
+		next.setPreNode(pre);
+		this.size --;
+		return position.getValue();
 	}
 
 	@Override
@@ -165,17 +163,17 @@ public class QList<E> implements List<E>{
 
 	@Override
 	public boolean retainAll(Collection c) {
-		return false;
+		throw new UnsupportedOperationException("Donot support this method!");
 	}
 
 	@Override
 	public E set(int index, E element) {
-		return null;
+		throw new UnsupportedOperationException("Donot support this method!");
 	}
 
 	@Override
 	public int size() {
-		return 0;
+		return this.size;
 	}
 
 	@Override
@@ -216,31 +214,26 @@ public class QList<E> implements List<E>{
 
 	@Override
 	public boolean addAll(Collection arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Donot support this method!");
 	}
 
 	@Override
 	public boolean addAll(int arg0, Collection arg1) {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Donot support this method!");
 	}
 
 	@Override
 	public boolean containsAll(Collection arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("Donot support this method!");
 	}
 
 	@Override
 	public int lastIndexOf(Object arg0) {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException("Donot support this method!");
 	}
 
 	@Override
 	public List subList(int arg0, int arg1) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Donot support this method!");
 	}
 }

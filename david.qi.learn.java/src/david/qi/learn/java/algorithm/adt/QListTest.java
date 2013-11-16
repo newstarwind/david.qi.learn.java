@@ -2,6 +2,8 @@ package david.qi.learn.java.algorithm.adt;
 
 import static org.junit.Assert.*;
 
+import java.util.Iterator;
+
 import org.junit.Test;
 
 public class QListTest {
@@ -15,13 +17,19 @@ public class QListTest {
 		list.add("This");
 		list.add("is");
 		list.add("Shanghai");
-		System.out.println(list.get(0));
-		System.out.println(list.get(1));
-		System.out.println(list.indexOf("world"));
-		System.out.println(list.indexOf("test"));
+		
+		Iterator<String> it = list.iterator();
+		while(it.hasNext()){
+			String s = it.next();
+			System.out.println(s);
+			if(s.equals("This")){
+				it.remove();
+			}
+		}
 		for(String e : list){
 			System.out.println(e);
 		}
+		
 	}
 
 }
