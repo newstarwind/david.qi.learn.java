@@ -5,26 +5,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class QList<E> implements List<E>{
+public class QList<E> implements List<E> {
 	Node<E> head;
 	Node<E> tail;
 	int size = 0;
-		
-	public QList(){
+
+	public QList() {
 		this.head = new Node<E>();
 		this.tail = new Node<E>();
 		this.head.setNextNode(this.tail);
 		this.tail.setPreNode(this.head);
 	}
-	
+
 	@Override
 	public void add(int index, E element) {
-		if(index > size){
-			throw new IndexOutOfBoundsException("Out of boundry, size = " + size +" and index = " + index);
+		if (index > size) {
+			throw new IndexOutOfBoundsException("Out of boundry, size = "
+					+ size + " and index = " + index);
 		}
 		Node<E> position = head;
-		for(int i = 0;i < index; i++){
-			position = position.getNextNode(); 			
+		for (int i = 0; i < index; i++) {
+			position = position.getNextNode();
 		}
 		Node<E> e = new Node<E>();
 		e.setValue(element);
@@ -58,16 +59,16 @@ public class QList<E> implements List<E>{
 	@Override
 	public boolean contains(Object o) {
 		throw new UnsupportedOperationException("Donot support this method!");
-		
+
 	}
 
 	@Override
 	public E get(int index) {
-		if(index >= size){
+		if (index >= size) {
 			throw new RuntimeException("Out of boundary: " + index);
 		}
 		Node<E> position = this.head;
-		for(int i = 0; i<= index; i++){
+		for (int i = 0; i <= index; i++) {
 			position = position.getNextNode();
 		}
 		return position.getValue();
@@ -75,14 +76,14 @@ public class QList<E> implements List<E>{
 
 	@Override
 	public int indexOf(Object o) {
-		if (o == null){
+		if (o == null) {
 			throw new RuntimeException("Wrong parameter: null");
 		}
 		Node position = this.head;
 		int i = 0;
-		while(position.getNextNode()!=this.tail){
+		while (position.getNextNode() != this.tail) {
 			position = position.getNextNode();
-			if(o == position.getValue())
+			if (o == position.getValue())
 				return i;
 			i++;
 		}
@@ -91,32 +92,36 @@ public class QList<E> implements List<E>{
 
 	@Override
 	public boolean isEmpty() {
-		if(this.size == 0)
+		if (this.size == 0)
 			return true;
 		return false;
 	}
 
 	@Override
 	public Iterator<E> iterator() {
-		return new Iterator<E>(){
+		return new Iterator<E>() {
 			Node<E> position = head;
+
 			@Override
 			public boolean hasNext() {
-				if(position.getNextNode()!=tail){
+				if (position.getNextNode() != tail) {
 					return true;
 				}
 				return false;
 			}
+
 			@Override
 			public E next() {
 				position = position.getNextNode();
 				return position.getValue();
 			}
+
 			@Override
 			public void remove() {
-				if(position == head || position == tail){
-					throw new RuntimeException("It's at begin or at end, can't remove.");
-				}else{
+				if (position == head || position == tail) {
+					throw new RuntimeException(
+							"It's at begin or at end, can't remove.");
+				} else {
 					Node<E> pre = position.getPreNode();
 					Node<E> next = position.getNextNode();
 					pre.setNextNode(next);
@@ -139,20 +144,28 @@ public class QList<E> implements List<E>{
 
 	@Override
 	public E remove(int index) {
-		Node<E>	position = head;
-		for(int i = 0; i <= index; i++){
+		Node<E> position = head;
+		for (int i = 0; i <= index; i++) {
 			position = position.getNextNode();
 		}
 		Node<E> pre = position.getPreNode();
 		Node<E> next = position.getNextNode();
 		pre.setNextNode(next);
 		next.setPreNode(pre);
-		this.size --;
+		this.size--;
 		return position.getValue();
 	}
 
 	@Override
 	public boolean remove(Object o) {
+		Node<E> position = head;
+		for(int i = 0; i< size; i++){
+			position = position.getNextNode();
+			if (position.getValue() == o){
+				this.remove(i);
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -186,28 +199,35 @@ public class QList<E> implements List<E>{
 		return null;
 	}
 
-	private static final class Node<E>{
-		E element;
-		Node nextNode;
-		Node preNode;
+	private static final class Node<E> {
+		Node<E> nextNode;
+		Node<E> preNode;
 		E value;
-		Node(){}
-		void setNextNode(Node next){
+
+		Node() {
+		}
+
+		void setNextNode(Node<E> next) {
 			this.nextNode = next;
 		}
-		Node getNextNode(){
+
+		Node<E> getNextNode() {
 			return this.nextNode;
 		}
-		void setPreNode(Node pre){
+
+		void setPreNode(Node<E> pre) {
 			this.preNode = pre;
 		}
-		Node getPreNode(){
+
+		Node<E> getPreNode() {
 			return this.preNode;
 		}
-		void setValue(E value){
+
+		void setValue(E value) {
 			this.value = value;
 		}
-		E getValue(){
+
+		E getValue() {
 			return this.value;
 		}
 	}
