@@ -16,6 +16,8 @@ public class QListTest {
 		list.add("world");
 		list.add("This");
 		list.add("is");
+		list.add("David");
+		list.add("in");
 		list.add("Shanghai");
 		
 		Iterator<String> it = list.iterator();
