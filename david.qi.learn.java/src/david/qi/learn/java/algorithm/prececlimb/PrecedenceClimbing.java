@@ -34,7 +34,7 @@ public class PrecedenceClimbing {
 	static final String PATTERN = "\\s*(\\d+)|(\\S)";
 
 	public static void main(String[] args) {
-		String expr = "1-(2+3)*4/5^6";
+		String expr = "1-(8+3)*4/5^6";
 		System.out.println(compute_expr(parse(expr), 1));		
 	}
 
